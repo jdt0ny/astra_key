@@ -1,0 +1,332 @@
+.boot-screen {
+  position: fixed;
+  z-index: 400;
+  inset: 0;
+  display: grid;
+  overflow-y: auto;
+  place-items: center;
+  padding: clamp(1rem, 4vw, 2rem);
+  background:
+    radial-gradient(ellipse 55% 48% at 50% 45%, rgba(138, 247, 164, 0.06), transparent 70%),
+    #040705;
+  opacity: 1;
+  transition:
+    opacity 280ms ease,
+    visibility 280ms ease;
+}
+
+.boot-screen::before {
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.18) 0,
+    rgba(0, 0, 0, 0.18) 1px,
+    transparent 1px,
+    transparent 4px
+  );
+  content: '';
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+.boot-screen::after {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 48%, rgba(0, 0, 0, 0.5) 100%);
+  content: '';
+  pointer-events: none;
+}
+
+.boot-screen.is-leaving {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.boot-screen__inner {
+  position: relative;
+  z-index: 1;
+  width: min(39rem, 100%);
+  padding: clamp(1.15rem, 4vw, 2rem);
+  border: 1px solid var(--line-strong);
+  background: rgba(5, 10, 6, 0.94);
+  box-shadow:
+    0 0 0 1px rgba(138, 247, 164, 0.02) inset,
+    0 0 90px rgba(138, 247, 164, 0.045);
+}
+
+.boot-screen__inner::before,
+.boot-screen__inner::after {
+  position: absolute;
+  width: 0.7rem;
+  height: 0.7rem;
+  border-color: var(--green);
+  border-style: solid;
+  content: '';
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.boot-screen__inner::before {
+  top: 5px;
+  left: 5px;
+  border-width: 1px 0 0 1px;
+}
+
+.boot-screen__inner::after {
+  right: 5px;
+  bottom: 5px;
+  border-width: 0 1px 1px 0;
+}
+
+.boot-screen__topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.boot-screen__kicker {
+  color: var(--ink-faint);
+  font-size: 0.58rem;
+  letter-spacing: 0.13em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.boot-screen__skip {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.42rem;
+  padding: 0.3rem 0.42rem;
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  color: var(--ink-dim);
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  transition:
+    border-color 150ms ease,
+    color 150ms ease,
+    background-color 150ms ease;
+}
+
+.boot-screen__skip:hover:not(:disabled) {
+  border-color: rgba(138, 247, 164, 0.55);
+  background: rgba(138, 247, 164, 0.05);
+  color: var(--green);
+}
+
+.boot-screen__skip:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.boot-screen__skip kbd {
+  padding: 0.1rem 0.22rem;
+  border: 1px solid var(--line);
+  background: rgba(255, 196, 107, 0.04);
+  color: var(--amber);
+  font-family: var(--font-mono);
+  font-size: 0.48rem;
+  letter-spacing: 0.03em;
+  line-height: 1.4;
+}
+
+.boot-screen__brand {
+  padding-block: clamp(1.5rem, 5vw, 2.4rem) clamp(1.25rem, 4vw, 1.8rem);
+  text-align: center;
+}
+
+.boot-screen__mark {
+  margin-inline: auto;
+  margin-bottom: 0.85rem;
+  color: var(--green);
+  filter: drop-shadow(0 0 22px rgba(138, 247, 164, 0.17));
+}
+
+.boot-screen__title {
+  color: var(--ink);
+  font-size: clamp(1.75rem, 6vw, 3rem);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  line-height: 1;
+}
+
+.boot-screen__tagline {
+  margin-top: 0.55rem;
+  color: var(--ink-faint);
+  font-size: 0.56rem;
+  letter-spacing: 0.17em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.boot-screen__log {
+  display: grid;
+  gap: 0.38rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--line);
+  font-size: clamp(0.7rem, 1.8vw, 0.8rem);
+  line-height: 1.6;
+}
+
+.boot-screen__line {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  color: var(--ink-soft);
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+
+.boot-screen__line.is-active,
+.boot-screen__line.is-done {
+  opacity: 1;
+}
+
+.boot-screen__prompt {
+  flex: 0 0 auto;
+  color: var(--green);
+}
+
+.boot-screen__line-text {
+  letter-spacing: 0.015em;
+}
+
+.boot-screen__leader {
+  min-width: 1rem;
+  flex: 1 1 auto;
+  border-bottom: 1px dotted rgba(168, 214, 179, 0.25);
+  transform: translateY(-0.22em);
+}
+
+.boot-screen__line-status {
+  flex: 0 0 auto;
+  width: 2.1rem;
+  color: var(--green);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-align: right;
+}
+
+.boot-screen__line.is-active .boot-screen__line-status {
+  color: var(--amber);
+}
+
+.boot-screen__progress {
+  margin-top: 1.3rem;
+}
+
+.boot-screen__progress-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--ink-faint);
+  font-size: 0.56rem;
+  letter-spacing: 0.11em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.boot-screen__percent {
+  color: var(--green);
+}
+
+.boot-screen__track {
+  position: relative;
+  height: 0.6rem;
+  margin-top: 0.4rem;
+  padding: 2px;
+  border: 1px solid var(--line-strong);
+  background: rgba(138, 247, 164, 0.035);
+  overflow: hidden;
+}
+
+.boot-screen__bar {
+  display: block;
+  height: 100%;
+  background: var(--green);
+  box-shadow: 0 0 14px rgba(138, 247, 164, 0.25);
+  transition: width 380ms var(--ease-out);
+}
+
+.boot-screen__track::after {
+  position: absolute;
+  inset: 2px;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0,
+    transparent 7px,
+    #040705 7px,
+    #040705 9px
+  );
+  content: '';
+  pointer-events: none;
+}
+
+.boot-screen__hint {
+  margin-top: 0.9rem;
+  color: var(--ink-faint);
+  font-size: 0.55rem;
+  letter-spacing: 0.06em;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.boot-screen__hint::after {
+  display: inline-block;
+  width: 0.42em;
+  height: 0.9em;
+  margin-left: 0.35em;
+  background: var(--green);
+  content: '';
+  vertical-align: -0.12em;
+  animation: boot-cursor 1.15s steps(1, end) infinite;
+}
+
+@keyframes boot-cursor {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (min-width: 520px) {
+  .boot-screen__brand {
+    padding-block: 2.2rem 1.7rem;
+  }
+
+  .boot-screen__line-status {
+    width: 2.5rem;
+  }
+}
+
+@media (max-height: 620px) {
+  .boot-screen {
+    align-items: start;
+  }
+
+  .boot-screen__brand {
+    padding-block: 1rem 0.85rem;
+  }
+
+  .boot-screen__mark {
+    width: 3.3rem;
+    height: 3.3rem;
+    margin-bottom: 0.55rem;
+  }
+
+  .boot-screen__log {
+    padding-top: 0.8rem;
+  }
+
+  .boot-screen__progress {
+    margin-top: 0.8rem;
+  }
+}

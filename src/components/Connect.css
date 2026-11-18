@@ -1,0 +1,398 @@
+/* --------------------------------------------------------------------------
+   Connect
+   -------------------------------------------------------------------------- */
+
+.connect {
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(138, 247, 164, 0.024), transparent 28%),
+    rgba(4, 7, 5, 0.38);
+}
+
+.connect::before {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(168, 214, 179, 0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(168, 214, 179, 0.028) 1px, transparent 1px);
+  background-size: 64px 64px;
+  content: '';
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 20%, #000 82%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 20%, #000 82%, transparent);
+  pointer-events: none;
+}
+
+.connect__glow {
+  position: absolute;
+  top: 24%;
+  right: -10%;
+  width: 46rem;
+  height: 36rem;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(138, 247, 164, 0.065), transparent 68%);
+  filter: blur(18px);
+  pointer-events: none;
+}
+
+.connect .container {
+  position: relative;
+  z-index: 1;
+}
+
+.connect__grid {
+  display: grid;
+  gap: clamp(2.1rem, 5vw, 4.5rem);
+  align-items: start;
+}
+
+.connect__supporting {
+  max-width: 38ch;
+  color: var(--ink-soft);
+  font-size: clamp(1rem, 2vw, 1.27rem);
+  letter-spacing: -0.02em;
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+
+.connect__note {
+  display: flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  max-width: 36ch;
+  margin-top: clamp(1.5rem, 3vw, 2.2rem);
+  padding: 0.6rem 0 0.6rem 0.9rem;
+  border-left: 1px solid rgba(255, 196, 107, 0.45);
+  color: var(--amber);
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  line-height: 1.7;
+}
+
+.connect__note > span {
+  color: var(--green);
+}
+
+.connect__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 2rem;
+  padding: 0.42rem 0.62rem;
+  border: 1px solid var(--line);
+  background: rgba(8, 13, 9, 0.5);
+  color: var(--ink-dim);
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.connect__channels {
+  min-width: 0;
+}
+
+.connect__channel-label {
+  margin-bottom: 0.75rem;
+  color: var(--ink-faint);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.connect__channel-label span {
+  color: rgba(138, 247, 164, 0.55);
+}
+
+.channel {
+  position: relative;
+  min-width: 0;
+  border: 1px solid var(--line);
+  background: rgba(8, 13, 9, 0.58);
+  text-decoration: none;
+  transition:
+    background-color 180ms var(--ease-out),
+    border-color 180ms var(--ease-out),
+    transform 180ms var(--ease-out);
+}
+
+.channel:hover {
+  border-color: rgba(138, 247, 164, 0.48);
+  background: rgba(138, 247, 164, 0.045);
+  transform: translateY(-2px);
+}
+
+.channel__index {
+  color: var(--ink-faint);
+  font-size: 0.52rem;
+  letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.channel__icon {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid var(--line);
+  color: var(--green);
+}
+
+.channel__icon svg {
+  width: 1.22rem;
+  height: 1.22rem;
+}
+
+.channel__body {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.14rem;
+}
+
+.channel__label {
+  color: var(--ink);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.channel__value {
+  overflow-wrap: anywhere;
+  color: var(--ink-soft);
+  font-size: 0.66rem;
+  letter-spacing: 0.015em;
+  line-height: 1.5;
+}
+
+.channel__hint {
+  color: var(--ink-faint);
+  font-size: 0.58rem;
+  letter-spacing: 0.025em;
+  line-height: 1.5;
+}
+
+.channel__action {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  color: var(--ink-faint);
+  transition:
+    color 170ms ease,
+    transform 170ms var(--ease-out);
+}
+
+.channel:hover .channel__action {
+  color: var(--green);
+  transform: translate(2px, -2px);
+}
+
+.channel__tag {
+  display: inline-block;
+  padding: 0.12rem 0.34rem;
+  border: 1px solid currentColor;
+  font-size: 0.43rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  opacity: 0.68;
+}
+
+/* Primary WhatsApp channel ------------------------------------------------ */
+
+.channel--primary {
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr) auto;
+  gap: 0.8rem;
+  align-items: center;
+  padding: 1rem;
+  border-color: var(--green);
+  background: var(--green);
+  color: var(--green-dark);
+}
+
+.channel--primary:hover {
+  border-color: var(--green-bright);
+  background: var(--green-bright);
+}
+
+.channel--primary::before {
+  position: absolute;
+  top: 0.38rem;
+  right: 0.38rem;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-top: 1px solid rgba(5, 20, 10, 0.42);
+  border-right: 1px solid rgba(5, 20, 10, 0.42);
+  content: '';
+  pointer-events: none;
+}
+
+.channel--primary .channel__index {
+  color: rgba(5, 20, 10, 0.52);
+}
+
+.channel--primary .channel__icon {
+  width: 2.9rem;
+  height: 2.9rem;
+  border-color: var(--green-dark);
+  background: var(--green-dark);
+  color: var(--green);
+}
+
+.channel--primary .channel__body {
+  gap: 0.1rem;
+}
+
+.channel--primary .channel__topline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.channel--primary .channel__label {
+  color: var(--green-dark);
+  font-size: 0.82rem;
+  letter-spacing: 0.1em;
+}
+
+.channel--primary .channel__hint {
+  color: rgba(5, 20, 10, 0.68);
+  font-size: 0.64rem;
+}
+
+.channel--primary .channel__value {
+  color: var(--green-dark);
+  font-size: 0.72rem;
+  font-weight: 500;
+}
+
+.channel--primary .channel__action {
+  color: var(--green-dark);
+}
+
+.channel--primary:hover .channel__action {
+  color: var(--green-dark);
+}
+
+.channel--primary:focus-visible {
+  outline-color: var(--amber);
+  outline-offset: 4px;
+}
+
+/* Secondary channels ------------------------------------------------------ */
+
+.connect__secondary {
+  display: grid;
+  gap: 0.55rem;
+  margin-top: 0.55rem;
+}
+
+.channel--secondary {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0.7rem;
+  align-items: center;
+  min-height: 5.4rem;
+  padding: 0.8rem 1.35rem 0.8rem 0.8rem;
+}
+
+.channel--secondary .channel__index {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.52rem;
+  color: var(--ink-faint);
+}
+
+.channel--secondary .channel__icon {
+  width: 2.25rem;
+  height: 2.25rem;
+}
+
+.channel--secondary .channel__icon svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.channel--secondary .channel__label {
+  font-size: 0.68rem;
+}
+
+.channel--secondary .channel__value {
+  font-size: 0.66rem;
+}
+
+.channel--secondary .channel__hint {
+  font-size: 0.58rem;
+}
+
+@media (min-width: 480px) {
+  .channel--primary {
+    grid-template-columns: auto auto minmax(0, 1fr) auto;
+    gap: 0.9rem;
+    padding: 1.05rem 1.1rem;
+  }
+
+  .channel--secondary {
+    padding: 0.9rem 1.5rem 0.9rem 0.9rem;
+  }
+}
+
+@media (min-width: 620px) {
+  .connect__secondary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.65rem;
+  }
+
+  .channel--secondary {
+    min-height: 6.4rem;
+    padding: 0.95rem 1.55rem 0.95rem 0.95rem;
+  }
+
+  .channel--secondary .channel__icon {
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+}
+
+@media (min-width: 940px) {
+  .connect__grid {
+    grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
+    gap: clamp(3rem, 6vw, 6rem);
+  }
+
+  .connect__intro {
+    padding-top: 0.2rem;
+  }
+
+  .connect__channels {
+    padding-top: 0.25rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .channel--primary {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    padding: 0.9rem;
+  }
+
+  .channel--primary .channel__index {
+    display: none;
+  }
+
+  .channel--primary .channel__icon {
+    width: 2.55rem;
+    height: 2.55rem;
+  }
+
+  .channel--primary .channel__label {
+    font-size: 0.76rem;
+  }
+
+  .channel--secondary {
+    min-height: 0;
+  }
+}

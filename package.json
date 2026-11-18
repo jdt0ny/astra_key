@@ -1,0 +1,30 @@
+{
+  "name": "astra-key",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "ASTRA KEY — personal digital identity terminal of Antonino Russo, AI & Software Developer.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc -b --pretty false"
+  },
+  "dependencies": {
+    "@fontsource/ibm-plex-mono": "^5.3.0",
+    "lucide-react": "^1.75.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.3.0",
+    "typescript": "~5.9.3",
+    "vite": "^8.3.8"
+  },
+  "engines": {
+    "node": ">=20.19.0"
+  }
+}

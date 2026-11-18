@@ -1,0 +1,181 @@
+/* --------------------------------------------------------------------------
+   About / operator file
+   -------------------------------------------------------------------------- */
+
+.about {
+  background:
+    linear-gradient(180deg, rgba(9, 15, 10, 0.48), transparent 28%),
+    linear-gradient(0deg, rgba(9, 15, 10, 0.3), transparent 24%);
+}
+
+.about__grid {
+  display: grid;
+  gap: clamp(2rem, 5vw, 4.2rem);
+  align-items: start;
+}
+
+.about__file {
+  position: relative;
+  width: 100%;
+  max-width: 23rem;
+  padding: 1rem;
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(155deg, rgba(11, 18, 12, 0.9), rgba(6, 10, 7, 0.72)),
+    var(--bg-panel);
+}
+
+.about__file::after {
+  position: absolute;
+  top: -1px;
+  right: 1.2rem;
+  width: 3.2rem;
+  height: 1px;
+  background: var(--green);
+  content: '';
+  opacity: 0.55;
+}
+
+.about__file-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink-faint);
+  font-size: 0.56rem;
+  letter-spacing: 0.1em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.about__file-head span:last-child {
+  color: var(--amber);
+}
+
+.about__file-mark {
+  display: grid;
+  place-items: center;
+  padding-block: 1.15rem 0.85rem;
+  color: var(--green);
+}
+
+.about__file-data {
+  border-top: 1px dashed var(--line);
+}
+
+.about__file-row {
+  display: grid;
+  gap: 0.18rem;
+  padding-block: 0.62rem;
+  border-bottom: 1px dashed var(--line-faint);
+}
+
+.about__file-row dt {
+  color: var(--ink-faint);
+  font-size: 0.55rem;
+  letter-spacing: 0.12em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.about__file-row dd {
+  color: var(--ink-soft);
+  font-size: 0.72rem;
+  letter-spacing: 0.015em;
+  line-height: 1.5;
+}
+
+.about__barcode {
+  height: 1.9rem;
+  margin-top: 1rem;
+  background-image: repeating-linear-gradient(
+    90deg,
+    rgba(154, 172, 158, 0.5) 0,
+    rgba(154, 172, 158, 0.5) 1px,
+    transparent 1px,
+    transparent 3px,
+    rgba(138, 247, 164, 0.36) 3px,
+    rgba(138, 247, 164, 0.36) 5px,
+    transparent 5px,
+    transparent 8px
+  );
+  opacity: 0.42;
+}
+
+.about__body {
+  max-width: 67ch;
+}
+
+.about__paragraph {
+  margin-bottom: 1.15rem;
+  color: var(--ink-soft);
+  font-size: clamp(0.88rem, 1.35vw, 0.98rem);
+  letter-spacing: -0.005em;
+  line-height: 1.86;
+}
+
+.about__paragraph--lead {
+  position: relative;
+  margin-bottom: 1.45rem;
+  padding-left: 1.25rem;
+  color: var(--ink);
+  font-size: clamp(1.1rem, 2.2vw, 1.36rem);
+  letter-spacing: -0.025em;
+  line-height: 1.55;
+}
+
+.about__lead-prompt {
+  position: absolute;
+  top: 0.1em;
+  left: 0;
+  color: var(--green);
+  font-size: 0.78em;
+}
+
+.about__paragraph--manifesto {
+  position: relative;
+  margin-block: 1.75rem;
+  padding: 1rem 1rem 1rem 1.25rem;
+  border-left: 2px solid var(--amber);
+  background: rgba(255, 196, 107, 0.035);
+  color: var(--ink);
+  font-size: clamp(0.92rem, 1.6vw, 1.03rem);
+  line-height: 1.8;
+}
+
+.about__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--line);
+}
+
+.about__eof {
+  color: var(--ink-faint);
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  line-height: 1.5;
+}
+
+@media (min-width: 900px) {
+  .about__grid {
+    grid-template-columns: minmax(15rem, 18.5rem) minmax(0, 1fr);
+    gap: clamp(2.6rem, 6vw, 5.5rem);
+  }
+
+  .about__file {
+    position: sticky;
+    top: calc(var(--header-height) + 2.2rem);
+    max-width: none;
+  }
+
+  .about__body {
+    padding-top: 0.25rem;
+  }
+}
