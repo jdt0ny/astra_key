@@ -1,4 +1,4 @@
-export const TERMINAL_COMMANDS = ['help', 'about', 'connect', 'astra'] as const;
+export const TERMINAL_COMMANDS = ['help', 'about', 'connect', 'book', 'astra'] as const;
 
 export type TerminalCommand = (typeof TERMINAL_COMMANDS)[number];
 

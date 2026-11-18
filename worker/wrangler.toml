@@ -1,0 +1,10 @@
+name = "astra-assistant"
+main = "src/index.js"
+compatibility_date = "2026-01-01"
+
+[vars]
+MODEL = "openai/gpt-oss-120b"
+# Deve combaciare con ASSISTANT.bookingUrl in src/lib/assistant.ts.
+BOOKING_URL = "https://cal.com/tony-russo-kwvzt9/call-sviluppo-software-automazioni-e-ai?overlayCalendar=true"
+# Origini autorizzate, separate da virgola. Aggiungi il tuo dominio se cambi hosting.
+ALLOWED_ORIGINS = "https://jdt0ny.github.io,http://localhost:5173,http://localhost:4173"

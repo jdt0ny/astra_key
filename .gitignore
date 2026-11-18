@@ -10,6 +10,11 @@ dist-ssr/
 .env
 .env.*
 !.env.example
+.dev.vars
+
+# Cloudflare Worker
+worker/.dev.vars
+worker/.wrangler/
 
 # Editor / OS
 .vscode/*

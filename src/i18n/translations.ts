@@ -93,15 +93,24 @@ export interface TerminalTranslation {
   eyebrow: string;
   title: string;
   intro: string;
+  introLocal: string;
   windowTitle: string;
   windowStatus: string;
   quickLabel: string;
   inputLabel: string;
   placeholder: string;
+  placeholderLocal: string;
   run: string;
   hint: string;
+  hintLocal: string;
   outputLabel: string;
   welcome: readonly string[];
+  welcomeLocal: readonly string[];
+  assistantLabel: string;
+  assistantPending: string;
+  assistantError: string;
+  assistantPrivacy: string;
+  assistantBookingCta: string;
   commandDescriptions: Record<TerminalCommand, string>;
   helpIntro: string;
   helpHint: string;
@@ -109,6 +118,10 @@ export interface TerminalTranslation {
   connectIntro: string;
   connectOutro: string;
   goToConnect: string;
+  bookIntro: string;
+  bookNote: string;
+  bookCta: string;
+  bookFallback: string;
   astraLines: readonly string[];
   astraSignature: string;
   notFound: (command: string) => string;
@@ -242,27 +255,44 @@ export const translations: Record<Language, Translation> = {
       eyebrow: '// INTERFACCIA DI COMANDO',
       title: 'TERMINALE',
       intro:
+        'Una shell per conoscermi meglio. Digita un comando, scrivi una domanda ad ASTRA o prenota direttamente una call. I comandi restano locali; le domande libere vengono inviate al provider AI per generare la risposta.',
+      introLocal:
         'Una shell locale per conoscermi meglio. Digita un comando o seleziona una scorciatoia. Nessun dato lascia il browser.',
       windowTitle: 'visitor@astra-key:~',
       windowStatus: 'SESSIONE ATTIVA',
       quickLabel: 'COMANDI RAPIDI',
-      inputLabel: 'Comando del terminale',
-      placeholder: 'digita un comando…',
+      inputLabel: 'Comando o domanda per il terminale',
+      placeholder: 'scrivi una domanda o un comando…',
+      placeholderLocal: 'digita un comando…',
       run: 'ESEGUI',
-      hint: 'INVIO per eseguire · ↑ ↓ cronologia',
+      hint: 'INVIO per inviare · ↑ ↓ cronologia',
+      hintLocal: 'INVIO per eseguire · ↑ ↓ cronologia',
       outputLabel: 'Cronologia del terminale',
       welcome: [
-        'ASTRA KEY SHELL v1.0 — sessione locale avviata.',
+        'ASTRA KEY SHELL v1.1 — sessione avviata.',
+        'Digita “help” per i comandi o “book” per prenotare una call.',
+        'Oppure scrivi una domanda: ASTRA, l’assistente AI, ti risponde qui.',
+      ],
+      welcomeLocal: [
+        'ASTRA KEY SHELL v1.1 — sessione locale avviata.',
         'Digita “help” o seleziona un comando rapido.',
       ],
+      assistantLabel: 'ASTRA',
+      assistantPending: 'sto elaborando la risposta…',
+      assistantError:
+        'Segnale perso: l’assistente non ha risposto. Riprova tra poco o usa i canali diretti.',
+      assistantPrivacy:
+        'Assistente AI: i messaggi sono inviati al provider per generare la risposta. Non condividere dati sensibili.',
+      assistantBookingCta: 'FISSA UNA CALL DI 20 MIN',
       commandDescriptions: {
         help: 'mostra i comandi disponibili',
         about: 'una breve introduzione personale',
         connect: 'i canali di contatto disponibili',
+        book: 'prenota una call conoscitiva di 20 minuti',
         astra: 'un segnale dall’orbita',
       },
       helpIntro: 'Comandi disponibili:',
-      helpHint: 'Seleziona un comando qui sotto o digitane uno nel prompt.',
+      helpHint: 'Seleziona un comando o scrivi una domanda libera per ASTRA.',
       aboutResponse: [
         'Antonino Russo — sviluppatore indipendente e autodidatta, con base in Sicilia.',
         'Lavora su sviluppo software, intelligenza artificiale e automazione. Parte da esigenze concrete per trasformare le idee in strumenti realmente utilizzabili.',
@@ -271,6 +301,10 @@ export const translations: Record<Language, Translation> = {
       connectIntro: 'Canali diretti, senza form:',
       connectOutro: 'I dettagli completi sono nella sezione Contatti.',
       goToConnect: 'VAI AI CONTATTI',
+      bookIntro: 'Puoi prenotare una call conoscitiva di 20 minuti. Scegli lo slot che preferisci:',
+      bookNote: 'La call serve a capire esigenze, tempi e fattibilità. Nessun impegno.',
+      bookCta: 'APRI IL CALENDARIO',
+      bookFallback: 'Il calendario non è ancora collegato. Scrivimi su WhatsApp e fissiamo insieme.',
       astraLines: [
         '✦ SEGNALE ASTRALE ACQUISITO',
         'CURIOSITÀ IN ORBITA.',
@@ -284,6 +318,7 @@ export const translations: Record<Language, Translation> = {
         help: 'Comandi disponibili visualizzati.',
         about: 'Introduzione personale visualizzata.',
         connect: 'Canali di contatto visualizzati.',
+        book: 'Calendario di prenotazione visualizzato.',
         astra: 'Segnale astrale acquisito.',
       },
       announcementError: 'Comando non riconosciuto.',
@@ -400,27 +435,44 @@ export const translations: Record<Language, Translation> = {
       eyebrow: '// COMMAND INTERFACE',
       title: 'TERMINAL',
       intro:
+        'A shell to get to know me better. Type a command, ask ASTRA a question or book a call directly. Commands stay local; free-form questions are sent to the AI provider to generate a reply.',
+      introLocal:
         'A local shell to get to know me better. Type a command or select a shortcut. No data leaves your browser.',
       windowTitle: 'visitor@astra-key:~',
       windowStatus: 'SESSION ACTIVE',
       quickLabel: 'QUICK COMMANDS',
-      inputLabel: 'Terminal command',
-      placeholder: 'type a command…',
+      inputLabel: 'Terminal command or question',
+      placeholder: 'type a question or a command…',
+      placeholderLocal: 'type a command…',
       run: 'RUN',
-      hint: 'ENTER to run · ↑ ↓ history',
+      hint: 'ENTER to send · ↑ ↓ history',
+      hintLocal: 'ENTER to run · ↑ ↓ history',
       outputLabel: 'Terminal history',
       welcome: [
-        'ASTRA KEY SHELL v1.0 — local session started.',
+        'ASTRA KEY SHELL v1.1 — session started.',
+        'Type “help” for commands or “book” to schedule a call.',
+        'Or just ask a question: ASTRA, the AI assistant, will answer here.',
+      ],
+      welcomeLocal: [
+        'ASTRA KEY SHELL v1.1 — local session started.',
         'Type “help” or select a quick command.',
       ],
+      assistantLabel: 'ASTRA',
+      assistantPending: 'working on a reply…',
+      assistantError:
+        'Signal lost: the assistant did not respond. Try again shortly or use a direct channel.',
+      assistantPrivacy:
+        'AI assistant: messages are sent to the provider to generate a reply. Do not share sensitive data.',
+      assistantBookingCta: 'BOOK A 20-MIN CALL',
       commandDescriptions: {
         help: 'display available commands',
         about: 'a short personal introduction',
         connect: 'available contact channels',
+        book: 'book a 20-minute intro call',
         astra: 'a signal from orbit',
       },
       helpIntro: 'Available commands:',
-      helpHint: 'Select a command below or type one at the prompt.',
+      helpHint: 'Select a command or type a free-form question for ASTRA.',
       aboutResponse: [
         'Antonino Russo — an independent, self-taught developer based in Sicily.',
         'He works across software development, artificial intelligence and automation, starting from real needs to turn ideas into genuinely usable tools.',
@@ -429,6 +481,10 @@ export const translations: Record<Language, Translation> = {
       connectIntro: 'Direct channels, no forms:',
       connectOutro: 'Full details are in the Connect section.',
       goToConnect: 'GO TO CONNECT',
+      bookIntro: 'You can book a 20-minute intro call. Pick the slot that works for you:',
+      bookNote: 'The call is to discuss needs, timing and feasibility. No commitment.',
+      bookCta: 'OPEN THE CALENDAR',
+      bookFallback: 'The calendar is not connected yet. Message me on WhatsApp and we’ll arrange it.',
       astraLines: [
         '✦ ASTRAL SIGNAL ACQUIRED',
         'CURIOSITY IN ORBIT.',
@@ -442,6 +498,7 @@ export const translations: Record<Language, Translation> = {
         help: 'Available commands displayed.',
         about: 'Personal introduction displayed.',
         connect: 'Contact channels displayed.',
+        book: 'Booking calendar displayed.',
         astra: 'Astral signal acquired.',
       },
       announcementError: 'Command not recognized.',

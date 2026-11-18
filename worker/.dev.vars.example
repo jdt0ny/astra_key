@@ -1,0 +1,2 @@
+# Copia questo file in .dev.vars e inserisci la chiave Groq (https://console.groq.com/keys).
+GROQ_API_KEY=gsk_your_key_here

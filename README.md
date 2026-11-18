@@ -2,7 +2,7 @@
 
 Personal identity terminal for **Antonino Russo** — AI & Software Developer.
 
-ASTRA KEY is a single-page personal site built as a fictional 1990s access terminal: a short boot sequence, a phosphor-green identity plate, a bilingual profile, five direct contact channels, and an interactive local shell. It is a fully static frontend — no backend, accounts, cookies, analytics, or tracking.
+ASTRA KEY is a single-page personal site built as a fictional 1990s access terminal: a short boot sequence, a phosphor-green identity plate, a bilingual profile, five direct contact channels, and an interactive shell that can talk to an AI assistant and guide visitors to book a call. The frontend itself is still a static build — no accounts, cookies, analytics, or tracking.
 
 ![ASTRA KEY social preview](public/og-image.png)
 
@@ -12,9 +12,10 @@ ASTRA KEY is a single-page personal site built as a fictional 1990s access termi
 - **Boot sequence** — `ASTRA KEY BIOS`, `PERSONAL ACCESS TERMINAL`, `INITIALIZING PROFILE`, `CONNECTION ESTABLISHED`; it can be skipped, runs once per session, and is bypassed when reduced motion is requested.
 - **Italian and English** — Italian is the default. The switch updates every label, profile paragraph, contact hint, terminal response, page title, metadata, and `<html lang>` without reloading. The choice is stored in `localStorage`.
 - **Direct contact** — WhatsApp (primary), phone, LinkedIn, email, and GitHub. External links use `target="_blank"` with `rel="noopener noreferrer"`.
-- **Interactive terminal** — `help`, `about`, `connect`, and `astra`, available by typing or via clickable shortcuts. Command history supports the arrow keys, and past responses retranslate when the language changes.
+- **Interactive terminal** — `help`, `about`, `connect`, `book`, and `astra`, available by typing or via clickable shortcuts. Command history supports the arrow keys, and past responses retranslate when the language changes.
+- **AI booking assistant** — free-form messages in the terminal are handled by ASTRA, a Groq-powered assistant that understands the visitor's need and points them to a 20-minute intro call. The `book` command opens the calendar directly. When no Worker endpoint is configured, the terminal stays local and only the built-in commands work.
 - **Accessible and responsive** — semantic landmarks, visible focus states, keyboard-friendly interface, skip link, live regions, 24px minimum targets, reduced-motion support, and no horizontal overflow from 320px upward.
-- **Static and private** — no contact forms, API calls, tracking scripts, or third-party runtime requests. Fonts are bundled at build time.
+- **Static and private by design** — no accounts, cookies, analytics, or tracking scripts. Fonts are bundled at build time, the conversation lives only in memory, and the optional assistant proxy stores nothing.
 
 ## Tech stack
 
@@ -24,6 +25,7 @@ ASTRA KEY is a single-page personal site built as a fictional 1990s access termi
 - Custom inline SVG brand icons and identity mark
 - Plain CSS with custom properties
 - `@fontsource/ibm-plex-mono` (self-hosted latin subsets, weights 400/500/600)
+- Cloudflare Worker + Groq (optional AI assistant)
 
 ## Requirements
 
@@ -39,6 +41,51 @@ npm run dev
 
 Open the URL printed by Vite (normally `http://localhost:5173`).
 
+## AI assistant (optional)
+
+Free-form text in the terminal is sent to **ASTRA**, a Groq-hosted model, through a small **Cloudflare Worker**. The Worker keeps the API key out of the static bundle and guides the conversation towards a 20-minute intro call.
+
+```text
+browser (static site)  →  Cloudflare Worker /chat  →  Groq API
+```
+
+If `VITE_ASSISTANT_ENDPOINT` is not set, the terminal behaves exactly as before: only local commands are available.
+
+### 1. Set the booking link
+
+Use the same Calendly/Cal.com URL in both places:
+
+- `VITE_BOOKING_URL` in your `.env` (and as a GitHub Actions variable) — used by the `book` command and the reply CTA
+- `worker/wrangler.toml` → `BOOKING_URL` — used in the assistant's system prompt
+
+`src/lib/assistant.ts` contains the production booking link as a fallback, so the `book` command works even before the environment variables are configured.
+
+### 2. Deploy the Worker
+
+Full instructions are in [`worker/README.md`](worker/README.md). In short:
+
+```bash
+cd worker
+npx wrangler@latest login
+npx wrangler@latest secret put GROQ_API_KEY
+npx wrangler@latest deploy
+```
+
+The Worker URL will look like `https://astra-assistant.<subdomain>.workers.dev`; the endpoint is that URL plus `/chat`.
+
+### 3. Point the frontend at it
+
+```bash
+cp .env.example .env
+# set VITE_ASSISTANT_ENDPOINT=https://astra-assistant.<subdomain>.workers.dev/chat
+# set VITE_BOOKING_URL=https://cal.com/tony-russo-kwvzt9/call-sviluppo-software-automazioni-e-ai?overlayCalendar=true
+npm run dev
+```
+
+For production, add the same values as repository variables under **Settings → Secrets and variables → Actions → Variables**: `VITE_ASSISTANT_ENDPOINT` and `VITE_BOOKING_URL`. The Pages workflow passes them to the build.
+
+The assistant is bilingual: the frontend sends the active language and the Worker instructs the model to reply in Italian or English. Messages are kept in React state only and are never persisted by the site or the Worker; they are sent to Groq to generate a reply, so visitors should not share sensitive data.
+
 ## Production build
 
 ```bash
@@ -51,8 +98,10 @@ npm run preview
 Other useful commands:
 
 ```bash
-npm run typecheck   # TypeScript only
-npm run preview     # serve the production build locally
+npm run typecheck    # TypeScript only
+npm run preview      # serve the production build locally
+npm run worker:dev   # Cloudflare Worker locally (http://localhost:8787)
+npm run worker:deploy
 ```
 
 ## Deployment
@@ -66,8 +115,10 @@ The site is published from `main` by [`.github/workflows/deploy-pages.yml`](.git
 - **Build command:** `npm run build`
 - **Output:** `dist`
 - **Base path:** supplied by `actions/configure-pages` (currently `/astra_key/`)
+- **Assistant endpoint:** repository variable `VITE_ASSISTANT_ENDPOINT` (optional)
+- **Booking URL:** repository variable `VITE_BOOKING_URL` (optional)
 
-The workflow runs on every push to `main` and can also be started manually from **Actions → Deploy to GitHub Pages → Run workflow**. It installs with `npm ci`, builds with the repository base path, uploads the Pages artifact, and deploys it.
+The workflow runs on every push to `main` and can also be started manually from **Actions → Deploy to GitHub Pages → Run workflow**. It installs with `npm ci`, builds with the repository base path and the optional assistant endpoint, uploads the Pages artifact, and deploys it.
 
 To reproduce the setup on another repository:
 
@@ -131,6 +182,8 @@ All interface copy, profile text, metadata, and terminal responses are in `src/i
 
 Commands are defined in `src/data/commands.ts`; responses and announcements are in `translations.ts`. The shell accepts lowercase or uppercase input and keeps a 30-command in-memory history.
 
+Free-form input is routed to the assistant when `VITE_ASSISTANT_ENDPOINT` is set. The API client, booking URL fallback, input limit, and conversation window live in `src/lib/assistant.ts`. The persona, tone, guardrails, and booking instructions are in `worker/src/index.js`.
+
 ### Visual system
 
 - `src/styles/global.css` — tokens, reset, typography, shared components, CRT overlay, responsive foundations
@@ -158,9 +211,12 @@ Commands are defined in `src/data/commands.ts`; responses and announcements are 
 │   ├── data/             # contacts, commands, profile constants
 │   ├── hooks/            # active section tracking
 │   ├── i18n/             # typed IT/EN translations and provider
+│   ├── lib/              # assistant API client and booking configuration
 │   ├── styles/           # global design system
 │   ├── App.tsx
 │   └── main.tsx
+├── worker/               # Cloudflare Worker proxy for the AI assistant
+├── .env.example
 ├── LICENSE
 └── package.json
 ```
@@ -176,7 +232,9 @@ Commands are defined in `src/data/commands.ts`; responses and announcements are 
 
 ## Privacy
 
-The site stores only two local preferences: `astra-key:language` (selected language) and `astra-key:booted` (session-scoped boot flag). There are no cookies, analytics, remote fonts, or outgoing data requests. The terminal runs entirely in the browser.
+The site stores only two local preferences: `astra-key:language` (selected language) and `astra-key:booted` (session-scoped boot flag). There are no cookies, analytics, remote fonts, or tracking scripts.
+
+With the assistant enabled, free-form terminal messages are sent through the Cloudflare Worker to Groq solely to generate a reply. The Worker does not persist or log message content, keeps no database, and returns the reply immediately. Built-in commands and all other page content run entirely in the browser.
 
 ## License
 
