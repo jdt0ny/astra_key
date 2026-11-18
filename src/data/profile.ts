@@ -3,5 +3,5 @@ export const PROFILE = {
   firstName: 'ANTONINO',
   lastName: 'RUSSO',
   title: 'AI & Software Developer',
-  website: 'https://astra-key.pages.dev/',
+  website: 'https://jdt0ny.github.io/astra_key/',
 } as const;

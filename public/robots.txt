@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://astra-key.pages.dev/sitemap.xml
+Sitemap: https://jdt0ny.github.io/astra_key/sitemap.xml

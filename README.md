@@ -46,7 +46,7 @@ npm run build
 npm run preview
 ```
 
-`npm run build` runs the TypeScript project build first and then Vite. The production output is written to `dist/`.
+`npm run build` runs the TypeScript project build first and then Vite. The production output is written to `dist/`. The default base path is `/`; the GitHub Pages workflow overrides it with `VITE_BASE_PATH` so the site works correctly under `/astra_key/`.
 
 Other useful commands:
 
@@ -55,41 +55,65 @@ npm run typecheck   # TypeScript only
 npm run preview     # serve the production build locally
 ```
 
-## Cloudflare Pages
+## Deployment
 
-The repository is ready for Cloudflare Pages. **No deployment has been performed as part of this project.**
+### GitHub Pages
 
-### Git integration
+The site is published from `main` by [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml).
 
-1. Push the repository to GitHub or GitLab.
-2. In the Cloudflare dashboard, open **Workers & Pages → Create → Pages → Connect to Git**.
-3. Select the repository.
-4. Use:
+- **Live site:** https://jdt0ny.github.io/astra_key/
+- **Pages source:** GitHub Actions
+- **Build command:** `npm run build`
+- **Output:** `dist`
+- **Base path:** supplied by `actions/configure-pages` (currently `/astra_key/`)
+
+The workflow runs on every push to `main` and can also be started manually from **Actions → Deploy to GitHub Pages → Run workflow**. It installs with `npm ci`, builds with the repository base path, uploads the Pages artifact, and deploys it.
+
+To reproduce the setup on another repository:
+
+1. Open **Settings → Pages → Build and deployment** and set **Source** to **GitHub Actions**.
+2. Push to `main` or run the workflow manually.
+3. If the repository name or custom domain changes, update the canonical, Open Graph, sitemap, robots, and profile URL values listed below.
+
+To preview the same subpath build locally:
+
+```bash
+VITE_BASE_PATH=/astra_key/ npm run build
+npm run preview
+# http://localhost:4173/astra_key/
+```
+
+### Cloudflare Pages (alternative)
+
+The build also works on Cloudflare Pages without a subpath. **No Cloudflare deployment is configured by this repository.**
+
+1. In the Cloudflare dashboard, open **Workers & Pages → Create → Pages → Connect to Git**.
+2. Select the repository.
+3. Use:
    - **Framework preset:** Vite
    - **Build command:** `npm run build`
    - **Build output directory:** `dist`
    - **Node version:** set `NODE_VERSION` to `22` (or another version that satisfies `>=20.19.0`)
-5. Deploy.
+4. Deploy.
 
 The site is a single HTML entry point with anchor navigation, so no SPA rewrite rule is required. `public/_headers` is copied into the build and applies security and cache headers on Cloudflare Pages.
 
-### Direct upload with Wrangler
+Direct upload with Wrangler:
 
 ```bash
 npm run build
 npx wrangler pages deploy dist
 ```
 
-Wrangler will ask for or create a Pages project. Review the command output before confirming.
+### Changing the deployed domain
 
-### Before going live
-
-The canonical URL, Open Graph URL, sitemap, robots file, and JSON-LD currently use the placeholder project domain `https://astra-key.pages.dev/`. If the deployed Pages URL or custom domain is different, update these files before publishing:
+The canonical URL, Open Graph image, sitemap, robots file, JSON-LD, and profile website currently use `https://jdt0ny.github.io/astra_key/`. If you move to a custom domain, update:
 
 - `index.html` — canonical, `og:url`, `og:image`, `twitter:image`, JSON-LD `url`
 - `public/sitemap.xml`
 - `public/robots.txt`
 - `src/data/profile.ts` — `website` value
+- `vite.config.ts` / `VITE_BASE_PATH` — only if the site moves from a subpath to a root domain
 
 Then rebuild and redeploy.
 
@@ -120,6 +144,7 @@ Commands are defined in `src/data/commands.ts`; responses and announcements are 
 
 ```text
 .
+├── .github/workflows/deploy-pages.yml
 ├── index.html
 ├── public/
 │   ├── _headers
