@@ -15,7 +15,7 @@ export const ASSISTANT = {
    * with BOOKING_URL in worker/wrangler.toml (used in the system prompt).
    */
   bookingUrl: (
-    import.meta.env.VITE_BOOKING_URL ??
+    import.meta.env.VITE_BOOKING_URL ||
     'https://cal.com/tony-russo-kwvzt9/call-sviluppo-software-automazioni-e-ai?overlayCalendar=true'
   ).trim(),
   maxInputLength: 600,
